@@ -8,7 +8,7 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-  url: https://github.com/Stormcargo/k3s-cluster-v2
+  url: https://github.com/stormcargo/k3s-cluster-v2
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
