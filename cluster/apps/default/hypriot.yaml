@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hypriot-deployment
+  labels:
+    app: hypriot
+    type: web
+spec:
+  template:
+    metadata:
+      name: hypriot-pod
+      labels:
+        app: hypriot
+        blink: show
+    spec:
+      containers:
+      - image: hypriot/rpi-busybox-httpd
+        name: hypriot
+        ports:
+        - containerPort: 80
+  replicas: 3 
+  selector:
+     matchLabels:
+      app: hypriot
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hypriot-service
+spec:
+  selector:
+    app: hypriot
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hypriot
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: hypriot.${SECRET_DOMAIN}
+    http:
+      paths:
+      - path: /testpath
+        pathType: Prefix
+        backend:
+          service:
+            name: hypriot-service
+            port:
+              number: 80
