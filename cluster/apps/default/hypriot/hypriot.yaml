@@ -33,7 +33,7 @@ spec:
     app: hypriot
   ports:
     - protocol: TCP
-      port: 8888
+      port: 80
       targetPort: 80
 
 ---
@@ -50,11 +50,12 @@ spec:
   - host: hypriot.${SECRET_DOMAIN}
     http:
       paths:
-      - path: /
-        backend:
+      - backend:
           name: hypriot-service
           port: 
-            number: 8888
+            number: 80
+        path: /
+        pathType: Prefix
   tls:
   - hosts:
     - "hypriot.${SECRET_DOMAIN}"
