@@ -52,8 +52,9 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: hypriot-service
-          servicePort: 8888
+          name: hypriot-service
+          port: 
+            number: 8888
   tls:
   - hosts:
-    - "homer.${SECRET_DOMAIN}"
+    - "hypriot.${SECRET_DOMAIN}"
